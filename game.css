@@ -1,0 +1,58 @@
+/* Visual enhancements for game pages (separate from estilo.css) */
+
+/* Base enhancements */
+body { background: linear-gradient(180deg,#0b1220 0%, #071023 100%); color: #e7eef6; text-rendering: optimizeLegibility; }
+
+/* Global layout and text centering */
+.w3-content, .w3-container, .w3-card, .w3-panel { text-align: center; }
+.w3-container p, .w3-container .w3-opacity, .hero-sub { margin: 0 auto 16px auto; max-width: 720px; text-align: center; line-height: 1.6; }
+h1, h2, h3, h4, .hero-title { text-align: center; margin: 0 0 12px 0; }
+
+/* Navbar */
+.game-nav { background: rgba(4,6,10,0.95); border-bottom: 2px solid rgba(255,255,255,0.04); }
+.game-nav .play-btn { background: linear-gradient(90deg,#ff5d5d,#ffb86b); color: #071018; font-weight: 700; border-radius: 6px; box-shadow: 0 8px 30px rgba(255,80,40,0.15); }
+
+/* Hero */
+.hero { background: linear-gradient(120deg, rgba(8,14,30,0.85), rgba(2,6,15,0.85)); padding: 84px 0; }
+.hero-overlay { display:inline-block; padding: 24px 36px; border-radius: 12px; background: rgba(255,255,255,0.02); box-shadow: 0 24px 60px rgba(0,0,0,0.6); }
+.hero-title { font-family: 'Press Start 2P', cursive; font-size: 32px; letter-spacing: 1px; color: #fff; }
+.hero-sub { font-family: 'Orbitron', sans-serif; color: #bcdbe6; }
+.play-btn.big { padding: 12px 26px; font-family: 'Orbitron', sans-serif; text-decoration: none; border-radius: 6px; }
+
+/* Cards and panels */
+.w3-container.w3-white { background: linear-gradient(180deg,#07111a,#051018); color:#dfeff0; border-radius:10px; box-shadow: 0 8px 30px rgba(0,0,0,0.6); padding: 20px; }
+.w3-card { border-radius: 10px; }
+.w3-row-padding .w3-third { display:flex; flex-direction:column; align-items:center; text-align:center; }
+.w3-row-padding img { margin-bottom: 12px; }
+
+/* Placar */
+.placar-card { background: linear-gradient(180deg,#081018,#07111a); border-left: 4px solid #5fe88a; padding: 16px; }
+.placar-card ol { list-style-position: inside; padding-left: 0; margin: 0 auto; display:inline-block; text-align:left; }
+.placar-card li { margin: 6px 0; font-weight:700; color:#dff9e7; }
+
+/* Leaderboard table */
+#scoreTable, #scoreTable th, #scoreTable td { text-align: center; }
+#scoreTable { margin: 0 auto; max-width: 100%; }
+
+/* Buttons */
+.w3-button { margin: 10px auto; display: inline-block; }
+
+/* Modal tweaks */
+.w3-modal-content { border-radius: 8px; border: 1px solid rgba(255,255,255,0.04); }
+
+/* Footer */
+footer { border-top: 1px solid rgba(255,255,255,0.03); }
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .hero { padding: 56px 12px; }
+  .hero-title { font-size: 20px; }
+  .w3-container p, .hero-sub { max-width: 92%; }
+  .placar-card ol { text-align: left; }
+}
+
+@media (max-width: 600px) {
+  .hero { padding: 40px 10px; }
+  .play-btn.big { padding: 10px 14px }
+}
+

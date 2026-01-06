@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<title>Beyond The Crown — Jogo</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Beyond The Crown — jogo 2D de plataforma. Recupere a coroa e vença o Ghost Commander.">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700&display=swap">
+<link rel="stylesheet" href="estilo.css">
+<link rel="stylesheet" href="game.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-black w3-card game-nav">
+    <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Menu"><i class="fa fa-bars"></i></a>
+    <a href="#" class="w3-bar-item w3-button w3-padding-large">INÍCIO</a>
+    <a href="#personagens" class="w3-bar-item w3-button w3-padding-large w3-hide-small">PERSONAGENS</a>
+    <a href="leaderboard.html" class="w3-bar-item w3-button w3-padding-large w3-hide-small">PLACAR</a>
+    <a href="download.html" class="w3-bar-item w3-button w3-padding-large w3-hide-small">DOWNLOAD</a>
+    </div>
+   </div>
+</div>
+
+
+
+<!-- Page content -->
+<div class="w3-content" style="max-width:2000px;margin-top:46px">
+
+  <!-- Hero -->
+  <header class="hero" id="play">
+    <div class="hero-overlay">
+      <h1 class="hero-title">BEYOND THE CROWN</h1>
+      <p class="hero-sub">Um jogo 2D de plataformas — supere perigos, vença o Ghost Commander e recupere a coroa.</p>
+      <a href="download.html" class="w3-button w3-black play-btn big">JOGAR AGORA</a>
+    </div>
+  </header>
+
+  <!-- Sobre o Jogo -->
+  <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:800px" id="sobre">
+    <h2 class="w3-wide">SOBRE O JOGO</h2>
+    <p class="w3-bold"><i>Beyond The Crown</i></p>
+    <p class="w3-justify">Beyond The Crown é um jogo de plataforma 2D que desafia sua paciência e habilidade. Enfrente inimigos, plataformas variadas e chefes para recuperar a coroa roubada pelo Ghost Comander.</p>
+
+    <div class="w3-panel w3-card placar-card w3-margin-top" style="display:inline-block; text-align:left;">
+      <h4>Top 3 — Local</h4>
+      <ol id="placar-widget" style="margin-left:18px;"> <li>Carregando...</li> </ol>
+      <a href="leaderboard.html" class="w3-button w3-border">Ver Placar Completo</a>
+    </div>
+  </div>
+
+  <!-- Personagens -->
+  <div class="w3-black" id="personagens">
+    <div class="w3-container w3-content w3-padding-64" style="max-width:800px">
+      <h2 class="w3-wide w3-center">PERSONAGENS</h2>
+      <p class="w3-opacity w3-center"><i>Conheça alguns personagens do reino</i></p><br>
+
+      <div class="w3-row-padding w3-padding-32" style="margin:0 -16px">
+        <div class="w3-third w3-margin-bottom">
+          <div style="text-align: center;">
+                <img src="img/slime.png" alt="Slime King" style="width:40%; display: block; margin-left: auto; margin-right: auto;" class="w3-hover-opacity">
+          </div>   
+        <div class="w3-container w3-white">
+            <p><b>Slime King</b></p>
+            <p>O rei slime, exilado e em busca de justiça.</p>
+            <button class="w3-button w3-black w3-margin-bottom" onclick="openInfo('slime-king')">Saber Mais</button>
+          </div>
+        </div>
+        <div class="w3-third w3-margin-bottom">
+          <div style="text-align: center;">
+                <img src="img/slime.png" alt="The Realm" style="width:40%; display: block; margin-left: auto; margin-right: auto;" class="w3-hover-opacity">
+          </div>  
+          <div class="w3-container w3-white">
+            <p><b>O Reino</b></p>
+            <p>Um reino fantástico habitado por slimes, fantasmas e criaturas estranhas.</p>
+            <button class="w3-button w3-black w3-margin-bottom" onclick="openInfo('realm')">Saber Mais</button>
+          </div>
+        </div>
+        <div class="w3-third w3-margin-bottom">
+          <div style="text-align: center;">
+                <img src="img/slime.png" alt="Ghost Commander" style="width:40%; display: block; margin-left: auto; margin-right: auto;" class="w3-hover-opacity">
+          </div>  
+          <div class="w3-container w3-white">
+            <p><b>Ghost Commander</b></p>
+            <p>O antagonista que roubou a coroa — o chefe final.</p>
+            <button class="w3-button w3-black w3-margin-bottom" onclick="openInfo('ghost-commander')">Saber Mais</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Info Modal (dinâmico) -->
+  <div id="infoModal" class="w3-modal">
+    <div class="w3-modal-content w3-animate-top w3-card-4">
+      <header class="w3-container w3-teal w3-center w3-padding-32"> 
+        <span onclick="closeInfo()" class="w3-button w3-teal w3-xlarge w3-display-topright">×</span>
+        <h2 class="w3-wide"><i class="fa fa-info-circle w3-margin-right"></i><span id="infoModalTitle">DETALHES</span></h2>
+      </header>
+      <div class="w3-container info-modal-body">
+        <div id="infoModalImage" style="text-align:center; margin-bottom:12px;"></div>
+        <div id="infoModalContent"></div>
+        <button class="w3-button w3-red w3-section" onclick="closeInfo()">FECHAR <i class="fa fa-remove"></i></button>
+      </div>
+    </div>
+  </div> 
+
+  <!-- The Contact Section -->
+  <div class="w3-container w3-content w3-padding-64" style="max-width:800px" id="contact">
+    <h2 class="w3-wide w3-center">CONTATO</h2>
+    <p class="w3-opacity w3-center"><i>Dúvidas, erros ou parcerias? Fale conosco.</i></p>
+    <div class="w3-row w3-padding-32">
+      <div class="w3-col m6 w3-large w3-margin-bottom">
+        <i class="fa fa-envelope" style="width:30px"> </i> Email: beyondthecrown.oficial@gmail.com<br>
+      </div>
+      <div class="w3-col m6">
+        <form action="/action_page.php" target="_blank">
+          <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
+            <div class="w3-half">
+              <input class="w3-input w3-border" type="text" placeholder="Nome" required name="Name">
+            </div>
+            <div class="w3-half">
+              <input class="w3-input w3-border" type="text" placeholder="Email" required name="Email">
+            </div>
+          </div>
+          <input class="w3-input w3-border" type="text" placeholder="Mensagem" required name="Message">
+          <button class="w3-button w3-black w3-section w3-right" type="submit">ENVIAR</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+<!-- End Page Content -->
+</div>
+
+<!-- Image of location/map -->
+<img src="/w3images/map.jpg" class="w3-image w3-greyscale-min" style="width:100%">
+
+<!-- Footer -->
+<footer class="w3-container w3-padding-64 w3-center w3-opacity w3-dark-grey w3-xlarge">
+  <i class="fa fa-instagram w3-hover-opacity"></i>
+  <i class="fa fa-youtube w3-hover-opacity"></i>
+  <p class="w3-medium">© 2026 Beyond The Crown — Jogo</p>
+</footer>
+
+<script>
+// Used to toggle the menu on small screens when clicking on the menu button
+function myFunction() {
+  var x = document.getElementById("navDemo");
+  if (x && x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else if (x) { 
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+
+// When the user clicks anywhere outside of the modal, close it
+var infoModal = document.getElementById('infoModal');
+window.onclick = function(event) {
+  if (event.target == infoModal) {
+    infoModal.style.display = "none";
+  }
+}
+
+// --- Placar widget (usa localStorage)
+(function(){
+  const STORAGE_KEY = 'btc_scores';
+  function getScores(){
+    try{ const raw = localStorage.getItem(STORAGE_KEY); if(!raw) return []; return JSON.parse(raw); }catch(e){ return []; }
+  }
+  function renderWidget(){
+    const ol = document.getElementById('placar-widget');
+    if(!ol) return;
+    const scores = getScores().slice().sort((a,b)=>b.score-a.score).slice(0,3);
+    if(!scores.length){ ol.innerHTML = '<li>Sem pontuações ainda</li>'; return; }
+    ol.innerHTML = '';
+    scores.forEach(s => { const li = document.createElement('li'); li.textContent = `${s.name} — ${s.score}`; ol.appendChild(li); });
+  }
+  document.addEventListener('DOMContentLoaded', renderWidget);
+})();
+
+// --- Modal data e funções para detalhes dos personagens
+const CHARACTERS = {
+  'slime-king': {
+    title: 'Slime King',
+    img: '<img src="img/slime.png" alt="Slime King" style="width:140px;">',
+    html: '<p><b>Slime King</b> — Um rei exilado que busca recuperar a coroa. Ele pode dividir-se para confundir o jogador e usa camadas de gel para absorver dano.</p><ul><li>Vida: 150</li><li>Habilidade: Divisão</li><li>Fraqueza: Fogo</li></ul>'
+  },
+  'realm': {
+    title: 'O Reino',
+    img: '<img src="img/realm.png" alt="O Reino" style="width:140px;">',
+    html: '<p>O Reino é uma terra mística com plataformas móveis, névoa espessa e segredos escondidos em cavernas. Explore e encontre power-ups.</p>'
+  },
+  'ghost-commander': {
+    title: 'Ghost Commander',
+    img: '<img src="img/ghost.png" alt="Ghost Commander" style="width:140px;">',
+    html: '<p><b>Ghost Commander</b> — Antagonista principal. Mestre de ataques espectrais e teletransporte, é o chefe final que roubou a coroa.</p><ul><li>Vida: 400</li><li>Habilidade: Teleporte & Rajadas espectrais</li><li>Recompensa: A coroa</li></ul>'
+  }
+};
+
+function openInfo(key){
+  const modal = document.getElementById('infoModal');
+  const data = CHARACTERS[key] || {};
+  document.getElementById('infoModalTitle').textContent = data.title || 'DETALHES';
+  document.getElementById('infoModalImage').innerHTML = data.img || '';
+  document.getElementById('infoModalContent').innerHTML = data.html || '<p>Sem detalhes disponíveis.</p>';
+  if(modal) modal.style.display = 'block';
+}
+
+function closeInfo(){
+  const modal = document.getElementById('infoModal');
+  if(modal) modal.style.display = 'none';
+}
+</script>
+
+</body>
+</html>

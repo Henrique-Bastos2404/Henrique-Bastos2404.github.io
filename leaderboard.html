@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Placar — Beyond The Crown</title>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+  <link rel="stylesheet" href="estilo.css">
+  <link rel="stylesheet" href="game.css">
+</head>
+<body>
+  <div class="w3-top">
+    <div class="w3-bar w3-black w3-card game-nav">
+      <a href="index.html" class="w3-bar-item w3-button w3-padding-large">INÍCIO</a>
+      <a href="leaderboard.html" class="w3-bar-item w3-button w3-padding-large">PLACAR</a>
+      <a href="download.html" class="w3-bar-item w3-button w3-padding-large w3-right play-btn">BAIXAR</a>
+    </div>
+  </div>
+
+  <div class="w3-content" style="max-width:1000px;margin-top:96px">
+    <div class="w3-container w3-padding-64 w3-center">
+      <h2 class="w3-wide">PLACAR — TOP 10</h2>
+      <p class="w3-opacity">Envie seu nome e pontuação para entrar no placar. Os dados serão armazenados no servidor quando a base de dados estiver ativa.</p>
+
+      <div class="w3-row">
+        <div class="w3-half w3-padding">
+          <div class="w3-card w3-padding">
+            <h4>Enviar pontuação</h4>
+            <form id="scoreForm" onsubmit="return submitScore(event)">
+              <input id="playerName" class="w3-input w3-border" placeholder="Nome (3-12 chars)" required maxlength="12">
+              <input id="playerScore" type="number" min="0" class="w3-input w3-border w3-margin-top" placeholder="Pontuação" required>
+              <button class="w3-button w3-black w3-margin-top">Enviar</button>
+            </form>
+          </div>
+        </div>
+        <div class="w3-half w3-padding">
+          <div class="w3-card w3-padding">
+            <h4>Top 10</h4>
+            <table id="scoreTable" class="w3-table w3-striped w3-white">
+              <thead>
+                <tr><th>#</th><th>Nome</th><th>Pontuação</th></tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="w3-container w3-padding-64 w3-center w3-dark-grey">
+    <p class="w3-medium">© 2026 Beyond The Crown — Jogo</p>
+  </footer>
+
+<script>
+/* Cliente mínimo para placar com backend (placeholders):
+   - Atualize os endpoints '/api/scores' quando o servidor estiver disponível.
+*/
+
+async function fetchScores() {
+  try {
+    const res = await fetch('/api/scores');
+    if (!res.ok) throw new Error('Network error');
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
+  } catch (e) {
+    console.error('Falha ao obter placar:', e);
+    return [];
+  }
+}
+
+function renderTable(scores) {
+  const tbody = document.querySelector('#scoreTable tbody');
+  tbody.innerHTML = '';
+  const list = (scores || []).slice().sort((a,b)=>b.score-a.score).slice(0,10);
+  list.forEach((s,i)=>{
+    const tr = document.createElement('tr');
+    const tdRank = document.createElement('td'); tdRank.textContent = i+1;
+    const tdName = document.createElement('td'); tdName.textContent = s.name;
+    const tdScore = document.createElement('td'); tdScore.textContent = s.score;
+    tr.appendChild(tdRank); tr.appendChild(tdName); tr.appendChild(tdScore);
+    tbody.appendChild(tr);
+  });
+}
+
+async function loadAndRender() {
+  const scores = await fetchScores();
+  renderTable(scores);
+}
+
+async function submitScore(ev) {
+  ev.preventDefault();
+  const name = document.getElementById('playerName').value.trim().slice(0,12);
+  const score = parseInt(document.getElementById('playerScore').value, 10);
+  if (!name || Number.isNaN(score)) return false;
+  try {
+    await fetch('/api/scores', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({name, score})
+    });
+    document.getElementById('scoreForm').reset();
+    loadAndRender();
+  } catch (e) {
+    console.error('Falha ao enviar pontuação:', e);
+    alert('Erro ao enviar pontuação. Tente novamente mais tarde.');
+  }
+  return false;
+}
+
+// Inicializar
+loadAndRender();
+</script>
+
+</body>
+</html>
