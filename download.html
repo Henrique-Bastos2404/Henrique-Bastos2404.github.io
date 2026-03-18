@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Baixar — Beyond The Crown</title>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Montserrat:wght@700;800&family=Inter:wght@300;400;600&display=swap">
+  <link rel="stylesheet" href="css/estilo.css">
+  <link rel="stylesheet" href="css/game.css">
+  <style>
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 15px;
+      border-radius: 4px;
+      background-color: rgba(0, 255, 0, 0.1);
+      border: 1px solid #1a331a;
+    }
+
+    .user-profile-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: #1a331a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border: 2px solid #2ecc71;
+    }
+
+    .user-profile-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .user-profile-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .user-profile-name {
+      color: #2ecc71;
+      font-weight: 700;
+      font-size: 12px;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .user-profile-status {
+      color: #1a331a;
+      font-size: 10px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .user-profile-logout {
+      color: #ff6666;
+      cursor: pointer;
+      font-size: 12px;
+      margin-left: 10px;
+      transition: color 0.3s ease;
+    }
+
+    .user-profile-logout:hover {
+      color: #ff9999;
+    }
+
+    /* Profile button + dropdown */
+    .profile-menu { position: relative; display: inline-block; }
+    .profile-btn { display: flex; align-items: center; gap: 10px; padding: 6px 12px; border-radius: 24px; background-color: rgba(2,8,2,0.9); border: 1px solid #1a331a; color: #2ecc71; cursor: pointer; font-weight: 700; text-transform: uppercase; }
+    .profile-btn-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #2ecc71; }
+    .profile-btn-name { font-size: 14px; text-transform: uppercase; }
+    .profile-go-btn { text-transform: uppercase; }
+    .profile-dropdown { position: absolute; right: 0; top: calc(100% + 8px); background: #020802; border: 1px solid #1a331a; padding: 6px; border-radius: 6px; display: none; flex-direction: column; min-width: 150px; z-index: 50; }
+    .profile-dropdown a { color: #2ecc71; padding: 8px 10px; text-decoration: none; font-weight: 600; text-transform: uppercase; }
+    .profile-dropdown a:hover { background: rgba(46,204,113,0.06); }
+
+    .download-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .download-card {
+      background-color: #020802;
+      border: 2px solid #1a331a;
+      border-radius: 8px;
+      padding: 30px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .download-card:hover {
+      border-color: #2ecc71;
+    }
+
+    .download-card h3 {
+      color: #2ecc71;
+      font-family: 'Montserrat', sans-serif;
+      margin-bottom: 15px;
+      font-size: 20px;
+    }
+
+    .download-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .download-icon img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    .download-info {
+      color: #2ecc71;
+      font-size: 13px;
+      margin-bottom: 20px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .download-info p {
+      margin: 8px 0;
+    }
+
+    .download-btn {
+      background-color: #2ecc71 !important;
+      color: #020802 !important;
+      font-weight: 700;
+      padding: 12px 24px !important;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+      display: inline-block;
+      text-decoration: none;
+      font-family: 'Montserrat', sans-serif;
+      margin-bottom: 15px;
+    }
+
+    .download-btn:hover {
+      background-color: #33ff33 !important;
+    }
+
+    .download-warning {
+      font-size: 11px;
+      color: #ff9999;
+      font-family: 'Inter', sans-serif;
+    }
+
+    @media (max-width: 768px) {
+      .download-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="w3-top">
+    <div class="w3-bar w3-card game-nav" style="background-color: #020802; border-bottom: 1px solid #1a331a; display: flex; justify-content: space-between; align-items: center; padding: 0 20px;">
+      <div style="display: flex;">
+        <a href="index.html" class="w3-bar-item w3-button w3-padding-large">INÍCIO</a>
+        <a href="leaderboard.html" class="w3-bar-item w3-button w3-padding-large">PLACARD</a>
+        <a href="download.html" class="w3-bar-item w3-button w3-padding-large">DOWNLOAD</a>
+        <a href="discord.html" class="w3-bar-item w3-button w3-padding-large">DISCORD</a>
+      </div>
+      <div id="authNav" style="margin-left: auto;">
+        <a href="login.html" class="w3-bar-item w3-button w3-padding-large">LOGIN | REGISTO</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="w3-content" style="max-width:1200px;margin-top:46px">
+    <div class="w3-container w3-center w3-padding-64">
+      <h2 class="w3-wide">DOWNLOAD</h2>
+      <p class="w3-opacity">Escolha o sistema operativo e instale Beyond The Crown</p>
+
+      <div class="download-container" style="margin-top: 40px;">
+        <!-- Windows -->
+        <div class="download-card">
+          <div class="download-icon">
+            <img src="img/windows icon.png" alt="Windows">
+          </div>
+          <h3>Windows</h3>
+          <div class="download-info">
+            <p id="windows-name">Beyond_The_Crown_Windows.zip</p>
+            <p>Tamanho: <b id="windows-size">-</b></p>
+            <p style="font-size: 11px;">Data: <b id="windows-date">-</b></p>
+          </div>
+          <a href="download/Beyond_The_Crown_Windows.zip" download class="download-btn">INSTALAR PARA WINDOWS</a>
+          <p class="download-warning">Aviso: Verificar o antivírus antes de executar o jogo.</p>
+        </div>
+
+        <!-- Linux -->
+        <div class="download-card">
+          <div class="download-icon">
+            <img src="img/linux icon.png" alt="Linux">
+          </div>
+          <h3>Linux</h3>
+          <div class="download-info">
+            <p id="linux-name">Beyond_The_Crown_Linux.zip</p>
+            <p>Tamanho: <b id="linux-size">-</b></p>
+            <p style="font-size: 11px;">Data: <b id="linux-date">-</b></p>
+          </div>
+          <a href="download/Beyond_The_Crown_Linux.zip" download class="download-btn">INSTALAR PARA LINUX</a>
+          <p class="download-warning">Aviso: Requer bibliotecas SDL2</p>
+        </div>
+      </div>
+
+      <div class="w3-margin-top" style="margin-top: 40px;">
+        <a href="index.html" class="w3-button" style="padding: 15px 40px; font-size: 18px; background-color: #2ecc71 !important; color: #020802 !important; border: 2px solid #2ecc71; border-radius: 8px; font-weight: bold; transition: all 0.3s ease;">Voltar</a>
+      </div>
+    </div>
+  </div>
+
+  <footer class="w3-container w3-padding-64 w3-center w3-dark-green">
+    <p class="w3-medium">© 2026 Beyond The Crown — BIT  SHIFT</p>
+  </footer>
+
+  <script>
+    // Função para verificar status de login
+    function checkLoginStatus() {
+      fetch("php/get_user_info.php", { credentials: 'include' })
+        .then(response => response.json())
+        .then(user => {
+          if (user.username) {
+            updateAuthNav(true, user);
+          } else {
+            updateAuthNav(false);
+          }
+        })
+        .catch(error => {
+          console.error("Erro ao verificar login:", error);
+          updateAuthNav(false);
+        });
+    }
+
+    // Função para atualizar a navegação de autenticação
+    function updateAuthNav(loggedIn, user = null) {
+      const authNav = document.getElementById('authNav');
+      const loginLink = '<a href="login.html" class="w3-bar-item w3-button w3-padding-large">LOGIN | REGISTO</a>';
+
+      if (loggedIn) {
+        const renderMenu = (u) => {
+          const username = escapeHtml((u.username || '').toUpperCase());
+          authNav.innerHTML = `
+            <div class="profile-menu">
+              <button class="profile-btn" aria-expanded="false" onclick="toggleProfileDropdown(event, this)">
+                <img src="${u.profile_image || 'img/avatars/default.png'}" class="profile-btn-avatar" alt="${username}">
+                <span class="profile-btn-name">${username}</span>
+              </button>
+              <div class="profile-dropdown" role="menu">
+                <a href="profile.html">IR AO PERFIL</a>
+                <a href="#" id="logoutLink">LOGOUT</a>
+              </div>
+            </div>
+          `;
+
+          const btn = authNav.querySelector('.profile-btn');
+          const dropdown = authNav.querySelector('.profile-dropdown');
+          const logoutLink = authNav.querySelector('#logoutLink');
+
+          btn.addEventListener('click', (e) => { e.stopPropagation(); const expanded = btn.getAttribute('aria-expanded') === 'true'; btn.setAttribute('aria-expanded', !expanded); dropdown.style.display = expanded ? 'none' : 'flex'; });
+          logoutLink.addEventListener('click', (e) => { e.preventDefault(); logoutUser(); });
+
+          document.addEventListener('click', () => { if (dropdown.style.display === 'flex') { dropdown.style.display = 'none'; btn.setAttribute('aria-expanded', 'false'); } });
+        };
+
+        if (user && user.username) renderMenu(user);
+        else {
+          fetch('php/get_user_info.php', { credentials: 'include' }).then(r => r.json()).then(u => { if (u.username) renderMenu(u); else authNav.innerHTML = loginLink; }).catch(() => { authNav.innerHTML = loginLink; });
+        }
+      } else {
+        authNav.innerHTML = loginLink;
+      }
+    }
+
+    // Função para logout
+    function logoutUser() {
+      fetch("php/login.php", { method: "POST", headers: { 'Content-Type': 'application/json' }, credentials: 'include', body: JSON.stringify({ action: 'logout' }) })
+        .then(() => {
+          checkLoginStatus();
+        })
+        .catch(error => console.error("Erro ao fazer logout:", error));
+    }
+
+    // Função para escapar HTML
+    function escapeHtml(text) {
+      const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+      };
+      return text.replace(/[&<>"']/g, m => map[m]);
+    }
+
+    // Função para obter informações dos arquivos
+    async function loadFileInfo() {
+      const files = {
+        windows: 'download/Beyond_The_Crown_Windows.zip',
+        linux: 'download/Beyond_The_Crown_Linux.zip'
+      };
+
+      for (const [system, filePath] of Object.entries(files)) {
+        try {
+          const response = await fetch(filePath, { method: 'HEAD' });
+          
+          if (response.ok) {
+            const sizeInBytes = response.headers.get('content-length');
+            
+            if (sizeInBytes) {
+              const sizeInMB = (sizeInBytes / (1024 * 1024)).toFixed(2);
+              document.getElementById(`${system}-size`).textContent = sizeInMB + ' MB';
+            }
+          } else {
+            document.getElementById(`${system}-size`).textContent = 'Informação não disponível';
+          }
+        } catch (error) {
+          console.error(`Erro ao obter informações do arquivo ${system}:`, error);
+          document.getElementById(`${system}-size`).textContent = 'Clique para descarregar';
+        }
+      }
+      
+      // Obter data atual
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('pt-PT');
+      document.getElementById('windows-date').textContent = dateStr;
+      document.getElementById('linux-date').textContent = dateStr;
+    }
+    
+    // Carregar informações ao abrir a página e verificar login
+    window.addEventListener('load', () => {
+      loadFileInfo();
+      checkLoginStatus();
+      // Load shared auth script
+      var s = document.createElement('script'); s.src = 'js/auth.js'; document.body.appendChild(s);
+    });
+
+    function toggleProfileDropdown(e, btn) {
+      e.stopPropagation();
+      const dropdown = btn && btn.parentElement ? btn.parentElement.querySelector('.profile-dropdown') : null;
+      if (!dropdown) return;
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+      dropdown.style.display = expanded ? 'none' : 'flex';
+    }
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Perfil — Beyond The Crown</title>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Inter:wght@300;400;600&display=swap">
+  <link rel="stylesheet" href="css/estilo.css">
+  <style>
+    .profile-container { max-width:700px;margin:80px auto;background:#020802;border:2px solid #1a331a;border-radius:8px;padding:30px;text-align:center }
+    .profile-title { color:#2ecc71;font-family:Montserrat, sans-serif;font-weight:700;text-transform:uppercase;margin-bottom:20px }
+    .profile-avatar { width:96px;height:96px;border-radius:50%;border:2px solid #2ecc71;object-fit:cover;margin:0 auto 18px }
+    .profile-actions { display:flex;flex-direction:column;gap:12px;max-width:360px;margin:0 auto }
+    .btn-primary { background:#1a331a;color:#2ecc71;border:1px solid #2ecc71;padding:10px 12px;font-weight:700;cursor:pointer;border-radius:6px;text-transform:uppercase }
+    .btn-logout { background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;color:#ff6666;text-transform:uppercase }
+  </style>
+</head>
+<body>
+  <div class="w3-top">
+    <div class="w3-bar w3-card game-nav" style="background-color: #020802; border-bottom: 1px solid #1a331a; display:flex; justify-content:space-between; align-items:center; padding:0 20px;">
+      <div style="display:flex;">
+        <a href="index.html" class="w3-bar-item w3-button w3-padding-large">INÍCIO</a>
+        <a href="leaderboard.html" class="w3-bar-item w3-button w3-padding-large">PLACARD</a>
+        <a href="download.html" class="w3-bar-item w3-button w3-padding-large">DOWNLOAD</a>
+      </div>
+      <div id="authNav" style="margin-left:auto"><a href="login.html" class="w3-bar-item w3-button w3-padding-large">LOGIN | REGISTO</a></div>
+    </div>
+  </div>
+
+  <div class="w3-content" style="max-width:1200px;margin-top:86px;">
+    <div class="profile-container">
+      <h1 class="profile-title">Meu Perfil</h1>
+      <div id="loginRequired" style="display:none;color:#ff6666;margin-bottom:18px;">
+        <p>Deve estar logado para acessar esta página.</p>
+        <a href="login.html" class="w3-button w3-green">Fazer Login</a>
+      </div>
+      <div id="profileContent" style="display:none;">
+        <img id="avatarImage" src="img/avatars/avatar1.svg" alt="Avatar" class="profile-avatar">
+        <div id="profileName" style="color:#2ecc71;font-weight:700;margin-bottom:16px;">-</div>
+        <div class="profile-actions">
+          <button id="btn-change-name" class="btn-primary">Mudar Nome</button>
+          <button id="btn-change-pass" class="btn-primary">Mudar Password</button>
+          <button id="btn-logout" class="btn-logout"><img src="img/logout.png" alt="Logout" style="width:18px;height:18px;"> Logout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="w3-container w3-padding-64 w3-center w3-dark-green">
+    <p class="w3-medium">© 2026 Beyond The Crown — BIT SHIFT</p>
+  </footer>
+
+  <script>
+    function updateUsernameSimple(){
+      const newName = prompt('Novo nome de utilizador:'); if (!newName) return;
+      fetch('php/update_profile.php',{method:'POST',headers:{'Content-Type':'application/json'},credentials:'include',body:JSON.stringify({action:'update_username',username:newName})})
+        .then(r=>r.json()).then(d=>{ alert(d.message|| (d.success? 'Nome atualizado':'Erro')); if(d.success) location.reload(); }).catch(()=>alert('Erro ao atualizar nome'));
+    }
+    function updatePasswordSimple(){
+      const oldPw = prompt('Palavra-passe atual:'); if(!oldPw) return; const newPw = prompt('Nova palavra-passe:'); if(!newPw) return; const conf = prompt('Confirmar nova palavra-passe:'); if(newPw!==conf){ alert('As senhas não coincidem'); return; }
+      fetch('php/update_profile.php',{method:'POST',headers:{'Content-Type':'application/json'},credentials:'include',body:JSON.stringify({action:'update_password',old_password:oldPw,new_password:newPw,confirm_password:conf})})
+        .then(r=>r.json()).then(d=>{ alert(d.message|| (d.success? 'Senha atualizada':'Erro')); if(d.success) location.reload(); }).catch(()=>alert('Erro ao atualizar senha'));
+    }
+    function logoutUser(){ fetch('php/login.php',{method:'POST',headers:{'Content-Type':'application/json'},credentials:'include',body:JSON.stringify({action:'logout'})}).then(()=>{ window.location.href='index.html'; }); }
+    function checkLoginStatus(){ fetch('php/get_user_info.php',{credentials:'include'}).then(r=>r.json()).then(u=>{ if(u && u.username){ document.getElementById('loginRequired').style.display='none'; document.getElementById('profileContent').style.display='block'; document.getElementById('profileName').textContent=u.username||'-'; if(u.profile_image) document.getElementById('avatarImage').src=u.profile_image; } else { document.getElementById('loginRequired').style.display='block'; document.getElementById('profileContent').style.display='none'; } }).catch(()=>{ document.getElementById('loginRequired').style.display='block'; document.getElementById('profileContent').style.display='none'; }); }
+
+    document.addEventListener('DOMContentLoaded', function(){
+      document.getElementById('btn-change-name').addEventListener('click', updateUsernameSimple);
+      document.getElementById('btn-change-pass').addEventListener('click', updatePasswordSimple);
+      document.getElementById('btn-logout').addEventListener('click', logoutUser);
+      checkLoginStatus();
+      var s = document.createElement('script'); s.src='js/auth.js'; document.body.appendChild(s);
+    });
+  </script>
+</body>
+</html>
+
