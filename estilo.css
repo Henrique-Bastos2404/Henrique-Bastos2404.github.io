@@ -327,15 +327,7 @@ body { font-family: 'Inter', sans-serif; }
     text-transform: uppercase;
 }
 
-/* Ensure auth button group looks consistent */
-.profile-menu .profile-go-btn {
-    margin-left: 6px;
-    text-transform: uppercase !important;
-}
 .profile-menu .profile-btn-name,
-.profile-menu .profile-dropdown a,
-.profile-menu .logout-icon-btn,
-#auth-profile-btn,
 #authNav button,
 #authNav a,
 #authNav span {
