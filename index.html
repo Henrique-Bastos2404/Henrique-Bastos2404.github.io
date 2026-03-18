@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <title>Beyond The Crown</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Beyond The Crown — jogo 2D de plataforma. Recupere a coroa e vença o Ghost Commander.">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Montserrat:wght@700;800&family=Inter:wght@300;400;600&display=swap">
+    <link rel="stylesheet" href="css/estilo.css">
+    <link rel="stylesheet" href="css/game.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 15px;
+            border-radius: 4px;
+            background-color: rgba(0, 255, 0, 0.1);
+            border: 1px solid #1a331a;
+        }
+
+        .user-profile-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #1a331a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 2px solid #2ecc71;
+        }
+
+        .user-profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user-profile-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .user-profile-name {
+            color: #2ecc71;
+            font-weight: 700;
+            font-size: 12px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .user-profile-status {
+            color: #1a331a;
+            font-size: 10px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .user-profile-logout {
+            color: #ff6666;
+            cursor: pointer;
+            font-size: 12px;
+            margin-left: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .user-profile-logout:hover {
+            color: #ff9999;
+        }
+
+    </style>
+</head>
+<body>
+
+  <div class="w3-top">
+  <div class="w3-bar w3-card game-nav" style="background-color: #020802; border-bottom: 1px solid #1a331a; display: flex; justify-content: space-between; align-items: center; padding: 0 20px;">
+    <div style="display: flex;">
+      <a href="index.html" class="w3-bar-item w3-button w3-padding-large">INÍCIO</a>
+      <a href="leaderboard.html" class="w3-bar-item w3-button w3-padding-large">PLACARD</a>
+      <a href="download.html" class="w3-bar-item w3-button w3-padding-large">DOWNLOAD</a>
+      <a href="discord.html" class="w3-bar-item w3-button w3-padding-large">DISCORD</a>
+    </div>
+    <div id="authNav" style="margin-left: auto;">
+      <a href="login.html" class="w3-bar-item w3-button w3-padding-large">LOGIN | REGISTO</a>
+    </div>
+  </div>
+</div>
+
+<div class="w3-content" style="max-width:2000px;margin-top:46px">
+
+  <div class="hero">
+    <div class="imagem">
+      <a href="index.html">
+        <img src="img/logo.png" alt="Beyond The Crown Logo">
+      </a>
+    </div>
+  </div>
+
+  <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:800px">
+    <p class="hero-sub">A coroa do reino foi roubada pelo temível General Buu, preparate para enfrentar
+      os seus lacaios e subir ao topo para o derrutares e o recuperares ao teu trono e reinado!  
+    </p>
+    
+    <div class="w3-row w3-padding-32">
+      <a href="download.html" class="w3-button w3-xlarge play-btn">JOGAR AGORA</a>
+    </div>
+
+    <div class="w3-row w3-padding-16 w3-center">
+      <img src="img/windows icon.png" alt="Windows Icon" style="max-width: 80px; height: auto; margin: 0 10px;">
+      <img src="img/linux icon.png" alt="Linux Icon" style="max-width: 80px; height: auto; margin: 0 10px;">
+    </div>
+
+    <div class="carrossel-container">
+      <div class="carrossel">
+        <img class="carrossel-slide fade" src="img/Menu.png" alt="Gameplay 1">
+        <img class="carrossel-slide fade" src="img/Floresta.png" alt="Gameplay 2">
+        <img class="carrossel-slide fade" src="img/Caverna.png" alt="Gameplay 3">
+
+        <a class="carrossel-prev" onclick="mudaSlide(-1)">&#10094;</a>
+        <a class="carrossel-next" onclick="mudaSlide(1)">&#10095;</a>
+
+        <div class="carrossel-dots">
+          <span class="dot" onclick="currentSlide(1)"></span>
+          <span class="dot" onclick="currentSlide(2)"></span>
+          <span class="dot" onclick="currentSlide(3)"></span>
+        </div>
+      </div>
+    </div>
+
+    <section class="contactos-section" aria-labelledby="contactos-title">
+  <div class="contactos-head">
+    <div>
+      <h2 id="contactos-title" class="contactos-title">CENTRO DE CONTACTO</h2>
+      <p class="contactos-subtitle">Se precisares de ajuda, quiseres reportar um problema ou enviar feedback, usa o formulário abaixo e preparamos o email para o suporte.</p>
+    </div>
+  </div>
+  <div class="contactos-grid">
+    <div class="contactos-info">
+      <div class="contacto-card">
+        <p class="contacto-label">EMAIL</p>
+        <p class="contacto-value"><a href="mailto:bitshift@beyondthecrown.pt">---------------------------</a></p>
+      </div>
+      <div class="contacto-card">
+        <p class="contacto-label">DISCORD</p>
+        <p class="contacto-value"><a href="discord.html">ENTRAR NO SERVIDOR</a></p>
+      </div>
+      <div class="contacto-card">
+        <p class="contacto-label">HORÁRIO</p>
+        <p class="contacto-value">SEGUNDA A SEXTA, 9H30 - 18H00</p>
+      </div>
+    </div>
+    <div class="contacto-form-card">
+      <h3 class="contacto-form-title">ENVIAR MENSAGEM</h3>
+      <p class="contacto-form-copy"></p>
+      <form id="contactoForm" class="contacto-form">
+        <div class="contacto-form-row">
+          <div class="contacto-field">
+            <label for="contactoNome">NOME</label>
+            <input type="text" id="contactoNome" name="nome" placeholder="O TEU NOME" required>
+          </div>
+          <div class="contacto-field">
+            <label for="contactoEmail">EMAIL</label>
+            <input type="email" id="contactoEmail" name="email" placeholder="EMAIL@EXEMPLO.COM" required>
+          </div>
+        </div>
+        <div class="contacto-field">
+          <label for="contactoAssunto">ASSUNTO</label>
+          <input type="text" id="contactoAssunto" name="assunto" placeholder="EX.: PROBLEMA NO LOGIN" required>
+        </div>
+        <div class="contacto-field">
+          <label for="contactoMensagem">MENSAGEM</label>
+          <textarea id="contactoMensagem" name="mensagem" placeholder="DESCREVE AQUI O QUE PRECISAS..." required></textarea>
+        </div>
+        <div class="contacto-actions">
+          <p class="contacto-note"></p>
+          <button type="submit" class="contacto-submit">ENVIAR</button>
+        </div>
+        <p id="contactoFeedback" class="contacto-feedback" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+</section>
+  </div>
+</div>
+
+  <footer class="w3-container w3-padding-64 w3-center w3-dark-green">
+    <p class="w3-medium">© 2026 Beyond The Crown — BIT SHIFT</p>
+  </footer>
+
+  <script>
+    let slideIndex = 1;
+    mostrarSlides(slideIndex);
+
+    function mudaSlide(n) {
+      mostrarSlides(slideIndex += n);
+    }
+
+    function currentSlide(n) {
+      mostrarSlides(slideIndex = n);
+    }
+
+    function mostrarSlides(n) {
+      let slides = document.getElementsByClassName("carrossel-slide");
+      let dots = document.getElementsByClassName("dot");
+      
+      if (n > slides.length) {
+        slideIndex = 1;
+      }
+      if (n < 1) {
+        slideIndex = slides.length;
+      }
+      
+      for (let i = 0; i < slides.length; i++) {
+        slides[i].classList.remove("display");
+      }
+      for (let i = 0; i < dots.length; i++) {
+        dots[i].classList.remove("active");
+      }
+      
+      slides[slideIndex - 1].classList.add("display");
+      dots[slideIndex - 1].classList.add("active");
+    }
+
+    setInterval(() => mudaSlide(1), 5000);
+
+    function initContactoForm() {
+      const form = document.getElementById('contactoForm');
+      const feedback = document.getElementById('contactoFeedback');
+      if (!form || !feedback) return;
+
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const nome = document.getElementById('contactoNome').value.trim();
+        const email = document.getElementById('contactoEmail').value.trim();
+        const assunto = document.getElementById('contactoAssunto').value.trim();
+        const mensagem = document.getElementById('contactoMensagem').value.trim();
+
+        if (!nome || !email || !assunto || !mensagem) {
+          feedback.textContent = 'Preenche todos os campos antes de enviar.';
+          return;
+        }
+
+        const subject = encodeURIComponent('[SUPORTE BTC] ' + assunto);
+        const body = encodeURIComponent(
+          'Nome: ' + nome + '\n' +
+          'Email: ' + email + '\n\n' +
+          'Mensagem:\n' + mensagem
+        );
+
+        feedback.textContent = 'A abrir o teu cliente de email...';
+        window.location.href = 'mailto:bitshift@beyondthecrown.pt?subject=' + subject + '&body=' + body;
+      });
+    }
+
+    // Verificar status de login e atualizar navegação
+    function logoutUser() {
+      fetch("php/login.php", { method: "POST", headers: { 'Content-Type': 'application/json' }, credentials: 'include', body: JSON.stringify({ action: 'logout' }) })
+        .then(() => {
+          if (window.auth_nav_refresh) window.auth_nav_refresh();
+        });
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/[&<>"']/g, c => ({
+        '&':'&amp;',
+        '<':'&lt;',
+        '>':'&gt;',
+        '"':'&quot;',
+        "'":'&#39;'
+      }[c]));
+    }
+
+    initContactoForm();
+    // Load shared auth script (simplified, robust)
+    (function(){ var s=document.createElement('script'); s.src='js/auth.js'; document.body.appendChild(s); })();
+  </script>
+</body>
+</html>
+
+
+
+
+
