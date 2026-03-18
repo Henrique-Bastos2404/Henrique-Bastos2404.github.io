@@ -401,83 +401,6 @@
   </footer>
 
   <script>
-    function checkLoginStatus() {
-      fetch("php/get_user_info.php", { credentials: 'include' })
-        .then(response => response.json())
-        .then(user => {
-          if (user.username) {
-            updateAuthNav(true, user);
-          } else {
-            updateAuthNav(false);
-          }
-        })
-        .catch(() => updateAuthNav(false));
-    }
-
-    function toggleProfileDropdown(e, btn) {
-      e.stopPropagation();
-      const dropdown = btn && btn.parentElement ? btn.parentElement.querySelector('.profile-dropdown') : null;
-      if (!dropdown) return;
-      const expanded = btn.getAttribute('aria-expanded') === 'true';
-      btn.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-      dropdown.style.display = expanded ? 'none' : 'flex';
-    }
-
-    function updateAuthNav(loggedIn, user = null) {
-      const authNav = document.getElementById('authNav');
-      const loginLink = '<a href="login.html" class="w3-bar-item w3-button w3-padding-large">LOGIN | REGISTO</a>';
-
-      if (loggedIn) {
-        const renderMenu = (u) => {
-          const username = escapeHtml((u.username || '').toUpperCase());
-          authNav.innerHTML = `
-            <div class="profile-menu">
-              <button class="profile-btn" aria-expanded="false" onclick="toggleProfileDropdown(event, this)">
-                <img src="${u.profile_image || 'default-avatar.svg'}" class="profile-btn-avatar" alt="${username}">
-                <span class="profile-btn-name">${username}</span>
-              </button>
-              <div class="profile-dropdown" role="menu">
-                <a href="profile.html">IR AO PERFIL</a>
-                <a href="#" id="logoutLink">LOGOUT</a>
-              </div>
-            </div>
-          `;
-
-          const btn = authNav.querySelector('.profile-btn');
-          const dropdown = authNav.querySelector('.profile-dropdown');
-          const logoutLink = authNav.querySelector('#logoutLink');
-
-          btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const expanded = btn.getAttribute('aria-expanded') === 'true';
-            btn.setAttribute('aria-expanded', !expanded);
-            dropdown.style.display = expanded ? 'none' : 'flex';
-          });
-          logoutLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            logoutUser();
-          });
-
-          document.addEventListener('click', () => {
-            if (dropdown.style.display === 'flex') {
-              dropdown.style.display = 'none';
-              btn.setAttribute('aria-expanded', 'false');
-            }
-          });
-        };
-
-        if (user && user.username) renderMenu(user);
-        else {
-          fetch('php/get_user_info.php', { credentials: 'include' })
-            .then(r => r.json())
-            .then(u => { if (u.username) renderMenu(u); else authNav.innerHTML = loginLink; })
-            .catch(() => { authNav.innerHTML = loginLink; });
-        }
-      } else {
-        authNav.innerHTML = loginLink;
-      }
-    }
-
     function logoutUser() {
       fetch("php/login.php", {
         method: "POST",
@@ -485,7 +408,7 @@
         credentials: 'include',
         body: JSON.stringify({ action: 'logout' })
       }).then(() => {
-        checkLoginStatus();
+        if (window.auth_nav_refresh) window.auth_nav_refresh();
       });
     }
 
@@ -499,7 +422,7 @@
       }[c]));
     }
 
-    checkLoginStatus();
+    (function(){ var s=document.createElement('script'); s.src='js/auth.js'; document.body.appendChild(s); })();
   </script>
 </body>
 </html>

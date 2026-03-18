@@ -238,11 +238,6 @@
         .profile-btn { display: flex; align-items: center; gap: 10px; padding: 6px 12px; border-radius: 24px; background-color: rgba(2,8,2,0.9); border: 1px solid #1a331a; color: #2ecc71; cursor: pointer; font-weight: 700; text-transform: uppercase; }
         .profile-btn-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #2ecc71; }
         .profile-btn-name { font-size: 14px; text-transform: uppercase; }
-        .profile-go-btn { background: transparent; border: 1px solid rgba(255,255,255,0.04); color: #2ecc71; padding: 6px 8px; border-radius: 6px; cursor: pointer; font-weight: 700; text-transform: uppercase; }
-        .profile-go-btn:hover { background: rgba(46,204,113,0.03); }
-        .profile-dropdown { position: absolute; right: 0; top: calc(100% + 8px); background: #020802; border: 1px solid #1a331a; padding: 6px; border-radius: 6px; display: none; flex-direction: column; min-width: 150px; z-index: 50; }
-        .profile-dropdown a { color: #2ecc71; padding: 8px 10px; text-decoration: none; font-weight: 600; text-transform: uppercase; }
-        .profile-dropdown a:hover { background: rgba(46,204,113,0.06); }
 
     </style>
 </head>
@@ -301,7 +296,7 @@
         .then(r => r.json())
         .then(data => {
           isLoggedIn = data.isLoggedIn;
-          updateAuthNav(isLoggedIn);
+          if (window.auth_nav_refresh) window.auth_nav_refresh();
           renderLeaderboard(data.data);
         })
         .catch(err => {
@@ -309,47 +304,6 @@
           const tbody = document.getElementById("leaderboard-body");
           tbody.innerHTML = "<tr><td colspan='4'>Erro ao carregar dados</td></tr>";
         });
-    }
-
-    function updateAuthNav(loggedIn) {
-      const authNav = document.getElementById('authNav');
-      const loginLink = '<a href="login.html" class="w3-bar-item w3-button w3-padding-large">LOGIN | REGISTO</a>';
-
-      if (loggedIn) {
-        const renderMenu = (u) => {
-          const username = escapeHtml((u.username || '').toUpperCase());
-          authNav.innerHTML = `
-            <div class="profile-menu">
-              <div style="display:flex;align-items:center;gap:8px;">
-                <button class="profile-btn" aria-expanded="false" onclick="toggleProfileDropdown(event, this)">
-                  <img src="${u.profile_image || 'default-avatar.svg'}" class="profile-btn-avatar" alt="${username}">
-                  <span class="profile-btn-name">${username}</span>
-                </button>
-                <button class="profile-go-btn" id="auth-profile-btn" title="PERFIL">PERFIL</button>
-              </div>
-              <div class="profile-dropdown" role="menu">
-                <a href="profile.html">IR AO PERFIL</a>
-                <a href="#" id="logoutLink">LOGOUT</a>
-              </div>
-            </div>
-          `;
-
-          const btn = authNav.querySelector('.profile-btn');
-          const dropdown = authNav.querySelector('.profile-dropdown');
-          const logoutLink = authNav.querySelector('#logoutLink');
-          const profileGoBtn = authNav.querySelector('#auth-profile-btn');
-
-          btn.addEventListener('click', (e) => { e.stopPropagation(); const expanded = btn.getAttribute('aria-expanded') === 'true'; btn.setAttribute('aria-expanded', !expanded); dropdown.style.display = expanded ? 'none' : 'flex'; });
-          logoutLink.addEventListener('click', (e) => { e.preventDefault(); logoutUser(); });
-          if (profileGoBtn) profileGoBtn.addEventListener('click', (e) => { e.preventDefault(); window.location.href = 'profile.html'; });
-
-          document.addEventListener('click', () => { if (dropdown.style.display === 'flex') { dropdown.style.display = 'none'; btn.setAttribute('aria-expanded', 'false'); } });
-        };
-
-        fetch("php/get_user_info.php", { credentials: 'include' }).then(r => r.json()).then(u => { if (u.username) renderMenu(u); else authNav.innerHTML = loginLink; }).catch(() => { authNav.innerHTML = loginLink; });
-      } else {
-        authNav.innerHTML = loginLink;
-      }
     }
 
     function renderLeaderboard(data) {
@@ -408,18 +362,8 @@
     }
 
     // Verifica o status de login ao carregar a página
-    checkLoginStatus();
     // Load shared auth script
     (function(){ var s=document.createElement('script'); s.src='js/auth.js'; document.body.appendChild(s); })();
-
-    function toggleProfileDropdown(e, btn) {
-      e.stopPropagation();
-      const dropdown = btn && btn.parentElement ? btn.parentElement.querySelector('.profile-dropdown') : null;
-      if (!dropdown) return;
-      const expanded = btn.getAttribute('aria-expanded') === 'true';
-      btn.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-      dropdown.style.display = expanded ? 'none' : 'flex';
-    }
   </script>
 </body>
 </html>

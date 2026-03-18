@@ -70,16 +70,6 @@
             color: #ff9999;
         }
 
-        /* Profile button + dropdown */
-        .profile-menu { position: relative; display: inline-block; }
-        .profile-btn { display: flex; align-items: center; gap: 10px; padding: 6px 12px; border-radius: 24px; background-color: rgba(2,8,2,0.9); border: 1px solid #1a331a; color: #2ecc71; cursor: pointer; font-weight: 700; text-transform: uppercase; }
-        .profile-btn-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #2ecc71; }
-        .profile-btn-name { font-size: 14px; text-transform: uppercase; }
-        .profile-go-btn { text-transform: uppercase; }
-        .profile-dropdown { position: absolute; right: 0; top: calc(100% + 8px); background: #020802; border: 1px solid #1a331a; padding: 6px; border-radius: 6px; display: none; flex-direction: column; min-width: 150px; z-index: 50; }
-        .profile-dropdown a { color: #2ecc71; padding: 8px 10px; text-decoration: none; font-weight: 600; text-transform: uppercase; }
-        .profile-dropdown a:hover { background: rgba(46,204,113,0.06); }
-
     </style>
 </head>
 <body>
@@ -150,7 +140,7 @@
     <div class="contactos-info">
       <div class="contacto-card">
         <p class="contacto-label">EMAIL</p>
-        <p class="contacto-value"><a href="mailto:bitshift@beyondthecrown.pt">bitshift@beyondthecrown.pt</a></p>
+        <p class="contacto-value"><a href="mailto:bitshift@beyondthecrown.pt">---------------------------</a></p>
       </div>
       <div class="contacto-card">
         <p class="contacto-label">DISCORD</p>
@@ -266,71 +256,10 @@
     }
 
     // Verificar status de login e atualizar navegação
-    function checkLoginStatus() {
-      fetch("php/get_user_info.php", { credentials: 'include' })
-        .then(r => r.json())
-        .then(user => {
-          if (user.username) {
-            updateAuthNav(true, user);
-          } else {
-            updateAuthNav(false);
-          }
-        })
-        .catch(() => updateAuthNav(false));
-    }
-
-    function toggleProfileDropdown(e, btn) {
-      e.stopPropagation();
-      const dropdown = btn && btn.parentElement ? btn.parentElement.querySelector('.profile-dropdown') : null;
-      if (!dropdown) return;
-      const expanded = btn.getAttribute('aria-expanded') === 'true';
-      btn.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-      dropdown.style.display = expanded ? 'none' : 'flex';
-    }
-
-    function updateAuthNav(loggedIn, user = null) {
-      const authNav = document.getElementById('authNav');
-      const loginLink = '<a href="login.html" class="w3-bar-item w3-button w3-padding-large">LOGIN | REGISTO</a>';
-
-      if (loggedIn) {
-        const renderMenu = (u) => {
-          const username = escapeHtml((u.username || '').toUpperCase());
-          authNav.innerHTML = `
-            <div class="profile-menu">
-              <button class="profile-btn" aria-expanded="false" onclick="toggleProfileDropdown(event, this)">
-                <img src="${u.profile_image || 'default-avatar.svg'}" class="profile-btn-avatar" alt="${username}">
-                <span class="profile-btn-name">${username}</span>
-              </button>
-              <div class="profile-dropdown" role="menu">
-                <a href="profile.html">IR AO PERFIL</a>
-                <a href="#" id="logoutLink">LOGOUT</a>
-              </div>
-            </div>
-          `;
-
-          const btn = authNav.querySelector('.profile-btn');
-          const dropdown = authNav.querySelector('.profile-dropdown');
-          const logoutLink = authNav.querySelector('#logoutLink');
-
-          btn.addEventListener('click', (e) => { e.stopPropagation(); const expanded = btn.getAttribute('aria-expanded') === 'true'; btn.setAttribute('aria-expanded', !expanded); dropdown.style.display = expanded ? 'none' : 'flex'; });
-          logoutLink.addEventListener('click', (e) => { e.preventDefault(); logoutUser(); });
-
-          document.addEventListener('click', () => { if (dropdown.style.display === 'flex') { dropdown.style.display = 'none'; btn.setAttribute('aria-expanded', 'false'); } });
-        };
-
-        if (user && user.username) renderMenu(user);
-        else {
-          fetch('php/get_user_info.php', { credentials: 'include' }).then(r => r.json()).then(u => { if (u.username) renderMenu(u); else authNav.innerHTML = loginLink; }).catch(() => { authNav.innerHTML = loginLink; });
-        }
-      } else {
-        authNav.innerHTML = loginLink;
-      }
-    }
-
     function logoutUser() {
       fetch("php/login.php", { method: "POST", headers: { 'Content-Type': 'application/json' }, credentials: 'include', body: JSON.stringify({ action: 'logout' }) })
         .then(() => {
-          checkLoginStatus();
+          if (window.auth_nav_refresh) window.auth_nav_refresh();
         });
     }
 
@@ -344,7 +273,6 @@
       }[c]));
     }
 
-    checkLoginStatus();
     initContactoForm();
     // Load shared auth script (simplified, robust)
     (function(){ var s=document.createElement('script'); s.src='js/auth.js'; document.body.appendChild(s); })();
