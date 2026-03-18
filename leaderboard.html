@@ -233,11 +233,6 @@
         .user-profile-logout:hover {
             color: #ff9999;
         }
-        /* Profile button + dropdown */
-        .profile-menu { position: relative; display: inline-block; }
-        .profile-btn { display: flex; align-items: center; gap: 10px; padding: 6px 12px; border-radius: 24px; background-color: rgba(2,8,2,0.9); border: 1px solid #1a331a; color: #2ecc71; cursor: pointer; font-weight: 700; text-transform: uppercase; }
-        .profile-btn-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #2ecc71; }
-        .profile-btn-name { font-size: 14px; text-transform: uppercase; }
 
     </style>
 </head>
@@ -306,6 +301,10 @@
         });
     }
 
+    function updateAuthNav(loggedIn) {
+      if (window.auth_nav_refresh) window.auth_nav_refresh();
+    }
+
     function renderLeaderboard(data) {
       const tbody = document.getElementById("leaderboard-body");
       tbody.innerHTML = "";
@@ -362,8 +361,13 @@
     }
 
     // Verifica o status de login ao carregar a página
+    checkLoginStatus();
     // Load shared auth script
     (function(){ var s=document.createElement('script'); s.src='js/auth.js'; document.body.appendChild(s); })();
+
+    function toggleProfileDropdown(e, btn) {
+      return;
+    }
   </script>
 </body>
 </html>
